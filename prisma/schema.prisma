@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Blueprint: Reusable contract template
+model Blueprint {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  fields    BlueprintField[]
+  contracts Contract[]
+}
+
+// BlueprintField: Configurable field in a blueprint
+model BlueprintField {
+  id          String @id @default(cuid())
+  blueprintId String
+  type        String // text, date, signature, checkbox
+  label       String
+  positionX   Int    @default(0)
+  positionY   Int    @default(0)
+  order       Int    @default(0)
+
+  blueprint      Blueprint            @relation(fields: [blueprintId], references: [id], onDelete: Cascade)
+  contractValues ContractFieldValue[]
+
+  @@index([blueprintId])
+}
+
+// Contract: Instance created from a blueprint
+model Contract {
+  id          String   @id @default(cuid())
+  blueprintId String
+  name        String
+  status      String   @default("created") // created, approved, sent, signed, locked, revoked
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  blueprint   Blueprint            @relation(fields: [blueprintId], references: [id])
+  fieldValues ContractFieldValue[]
+
+  @@index([blueprintId])
+  @@index([status])
+}
+
+// ContractFieldValue: Values for contract fields
+model ContractFieldValue {
+  id               String @id @default(cuid())
+  contractId       String
+  blueprintFieldId String
+  value            String @default("")
+
+  contract       Contract       @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  blueprintField BlueprintField @relation(fields: [blueprintFieldId], references: [id], onDelete: Cascade)
+
+  @@unique([contractId, blueprintFieldId])
+  @@index([contractId])
+}
