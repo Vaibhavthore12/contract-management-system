@@ -1,0 +1,90 @@
+﻿
+> contract-management-system@0.1.0 test
+> jest
+
+node.exe : Error: 
+Jest: Failed to 
+parse the TypeScript 
+config file D:\Brave 
+downloads\contract-ma
+nagement-system\jest.
+config.ts
+At line:1 char:1
++ & "C:\Program Files
+\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Error:    
+ Jest: Fa...\jest    
+.config.ts:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+  Error [ERR_MODULE_N
+OT_FOUND]: Cannot 
+find module 
+'D:\Brave downloads\c
+ontract-management-sy
+stem\node_modules\nex
+t\jest' imported 
+from D:\Brave downloa
+ds\contract-managemen
+t-system\jest.config.
+ts
+Did you mean to 
+import 
+"next/jest.js"?
+    at readConfigFile
+AndSetRootDir 
+(D:\Brave downloads\c
+ontract-management-sy
+stem\node_modules\@je
+st\core\node_modules\
+jest-config\build\ind
+ex.js:2274:13)
+    at async 
+readInitialOptions 
+(D:\Brave downloads\c
+ontract-management-sy
+stem\node_modules\@je
+st\core\node_modules\
+jest-config\build\ind
+ex.js:1147:13)
+    at async 
+readConfig (D:\Brave 
+downloads\contract-ma
+nagement-system\node_
+modules\@jest\core\no
+de_modules\jest-confi
+g\build\index.js:918:
+7)
+    at async 
+readConfigs 
+(D:\Brave downloads\c
+ontract-management-sy
+stem\node_modules\@je
+st\core\node_modules\
+jest-config\build\ind
+ex.js:1168:26)
+    at async runCLI 
+(D:\Brave downloads\c
+ontract-management-sy
+stem\node_modules\@je
+st\core\build\index.j
+s:1407:7)
+    at async 
+Object.run (D:\Brave 
+downloads\contract-ma
+nagement-system\node_
+modules\jest-cli\buil
+d\index.js:656:9)
