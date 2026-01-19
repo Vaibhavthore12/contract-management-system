@@ -237,6 +237,22 @@ POST /api/contracts/:id/transition
 
 ## 🧪 Testing
 
+### Unit Tests
+
+The project includes 68 unit tests covering lifecycle logic and validation:
+
+```bash
+npm test             # Run all tests
+npm run test:watch   # Watch mode
+npm run test:coverage # With coverage report
+```
+
+**Test Coverage:**
+| Test Suite | Tests | Description |
+|-----------|-------|-------------|
+| `lifecycle.test.ts` | 35+ | State machine transitions, terminal states |
+| `types.test.ts` | 30+ | Status filters, field types, validation |
+
 ### Manual Testing Flow
 
 1. **Create Blueprint**: Navigate to Blueprints → New Blueprint → Add fields → Save
@@ -253,6 +269,11 @@ POST /api/contracts/:id/transition
 ```bash
 # Development
 npm run dev          # Start dev server
+
+# Testing
+npm test             # Run unit tests
+npm run test:watch   # Watch mode
+npm run test:coverage # With coverage
 
 # Production
 npm run build        # Build for production
