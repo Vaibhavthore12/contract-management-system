@@ -4,6 +4,8 @@ A full-stack Contract Management Platform built with Next.js 16, featuring bluep
 
 🔗 **Live Demo:** [contract-management-system-opal.vercel.app](https://contract-management-system-opal.vercel.app)
 
+📚 **API Docs:** [contract-management-system-opal.vercel.app/api-docs](https://contract-management-system-opal.vercel.app/api-docs)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -65,6 +67,19 @@ DIRECT_URL="postgresql://user:password@host/database?sslmode=require"
    ```bash
    npx vercel --prod
    ```
+
+### Docker Deployment
+
+Run locally with Docker:
+
+```bash
+# Using docker-compose with local PostgreSQL
+docker-compose up -d
+
+# Or build and run standalone
+docker build -t contract-management .
+docker run -p 3000:3000 -e DATABASE_URL="your-db-url" contract-management
+```
 
 ## 📋 Features
 
