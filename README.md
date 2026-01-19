@@ -2,7 +2,7 @@
 
 A full-stack Contract Management Platform built with Next.js 16, featuring blueprint templates, contract creation, and lifecycle management with strict state enforcement.
 
-![Contract Dashboard](./docs/dashboard.png)
+🔗 **Live Demo:** [contract-management-system-opal.vercel.app](https://contract-management-system-opal.vercel.app)
 
 ## 🚀 Quick Start
 
@@ -14,11 +14,15 @@ A full-stack Contract Management Platform built with Next.js 16, featuring bluep
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Vaibhavthore12/contract-management-system.git
 cd contract-management-system
 
 # Install dependencies
 npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your database credentials
 
 # Initialize the database
 npx prisma db push
@@ -28,6 +32,39 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Environment Variables
+
+Create a `.env` file with the following variables:
+
+```env
+# PostgreSQL Database (Neon recommended)
+DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+DIRECT_URL="postgresql://user:password@host/database?sslmode=require"
+```
+
+## ☁️ Deployment
+
+### Vercel + Neon PostgreSQL (Recommended)
+
+1. **Create a Neon Database:**
+   - Go to [neon.tech](https://neon.tech) and create a free account
+   - Create a new project and copy the connection strings
+
+2. **Deploy to Vercel:**
+   ```bash
+   npx vercel
+   ```
+
+3. **Add Environment Variables in Vercel:**
+   - Go to Vercel Dashboard → Project → Settings → Environment Variables
+   - Add `DATABASE_URL` (pooled connection string)
+   - Add `DIRECT_URL` (direct/unpooled connection string)
+
+4. **Deploy to Production:**
+   ```bash
+   npx vercel --prod
+   ```
 
 ## 📋 Features
 
@@ -72,7 +109,8 @@ Created → Approved → Sent → Signed → Locked
 |-------|------------|---------------|
 | Frontend | Next.js 16 (App Router) | Full-stack React framework with server components |
 | Backend | Next.js API Routes | RESTful API in same codebase |
-| Database | SQLite + Prisma | Simple setup, relational model, type-safe ORM |
+| Database | PostgreSQL + Prisma | Production-ready, relational model, type-safe ORM |
+| Hosting | Vercel + Neon | Serverless deployment with managed PostgreSQL |
 | Styling | TailwindCSS 4 | Utility-first CSS, rapid development |
 | Language | TypeScript | Type safety across frontend and backend |
 
@@ -182,35 +220,6 @@ POST /api/contracts/:id/transition
 }
 ```
 
-**Error Response (Invalid Transition):**
-```json
-{
-  "success": false,
-  "error": "Invalid transition from 'created' to 'locked'. Allowed transitions: approved, revoked"
-}
-```
-
-## ⚙️ Design Decisions & Trade-offs
-
-### Decisions Made
-
-1. **SQLite over PostgreSQL**: Chosen for simpler setup and zero external dependencies. Suitable for demo/development; can easily swap to PostgreSQL by changing the Prisma datasource.
-
-2. **Monorepo Architecture**: Frontend and backend in same Next.js project for simpler deployment and shared types.
-
-3. **Field Values as String**: All field values stored as strings for simplicity. Checkbox values are "true"/"false" strings.
-
-4. **No Authentication**: Marked optional in requirements. User shown is mocked.
-
-5. **Lifecycle in Backend Only**: State machine logic enforced server-side to prevent client-side bypasses.
-
-### Assumptions
-
-- Single user/admin role (no multi-tenancy)
-- Field positions track x/y for potential drag-and-drop but UI uses simple ordering
-- Signatures are typed names (not drawn signatures)
-- Contracts are immutable once locked
-
 ## 🧪 Testing
 
 ### Manual Testing Flow
@@ -224,61 +233,20 @@ POST /api/contracts/:id/transition
    - Click Lock → status changes to "Locked" (no more actions)
 4. **Test Invalid Transitions**: Try Revoke on a Locked contract (should fail)
 
-### Verify API Validation
+## 📦 Scripts
 
 ```bash
-# Should fail - missing fields
-curl -X POST http://localhost:3000/api/blueprints \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Test"}'
+# Development
+npm run dev          # Start dev server
 
-# Should fail - invalid transition
-curl -X POST http://localhost:3000/api/contracts/:id/transition \
-  -H "Content-Type: application/json" \
-  -d '{"targetStatus": "locked"}'
-```
+# Production
+npm run build        # Build for production
+npm start            # Start production server
 
-## 📁 File Overview
-
-### Core Files
-
-| File | Purpose |
-|------|---------|
-| `lib/lifecycle.ts` | State machine with valid transitions |
-| `lib/types.ts` | TypeScript interfaces and enums |
-| `lib/db.ts` | Prisma client singleton |
-| `prisma/schema.prisma` | Database models |
-
-### API Routes
-
-| File | Endpoints |
-|------|-----------|
-| `app/api/blueprints/route.ts` | GET, POST blueprints |
-| `app/api/blueprints/[id]/route.ts` | GET, PUT, DELETE blueprint |
-| `app/api/contracts/route.ts` | GET, POST contracts |
-| `app/api/contracts/[id]/route.ts` | GET, PUT contract |
-| `app/api/contracts/[id]/transition/route.ts` | POST, GET transitions |
-
-### Pages
-
-| Page | Route |
-|------|-------|
-| Dashboard | `/` |
-| Blueprint List | `/blueprints` |
-| Create Blueprint | `/blueprints/new` |
-| Blueprint Detail | `/blueprints/:id` |
-| Contract List | `/contracts` |
-| Create Contract | `/contracts/new` |
-| Contract Detail | `/contracts/:id` |
-
-## 📦 Production Build
-
-```bash
-# Build for production
-npm run build
-
-# Start production server
-npm start
+# Database
+npx prisma db push   # Push schema to database
+npx prisma generate  # Generate Prisma client
+npx prisma studio    # Open database GUI
 ```
 
 ## 🔮 Future Enhancements
@@ -289,7 +257,6 @@ npm start
 - [ ] Audit trail / history log
 - [ ] Drag-and-drop field positioning
 - [ ] Digital signature with canvas drawing
-- [ ] Docker deployment setup
 
 ## 📄 License
 
